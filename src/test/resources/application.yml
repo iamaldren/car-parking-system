@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+app:
+  input:
+    method: "file"
+    file:
+      location: "/inputs"
