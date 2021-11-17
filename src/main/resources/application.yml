@@ -1,0 +1,5 @@
+app:
+  input:
+    method: "file"
+    file:
+      location: "/inputs"
