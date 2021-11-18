@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.ConfigDataApplicationContextInitial
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -35,10 +34,13 @@ public class FileInputServiceImplTest {
 
     @Test
     public void testProcessInput() {
-        int expected = 1;
-        List<String> lines = inputService.processInput();
+        int expectedFileData = 1;
+        int expectedFileDataLines = 8;
 
-        assertEquals(expected, lines.size());
+        List<List<String>> lines = inputService.processInput();
+
+        assertEquals(expectedFileData, lines.size());
+        assertEquals(expectedFileDataLines, lines.get(0).size());
     }
 
 }

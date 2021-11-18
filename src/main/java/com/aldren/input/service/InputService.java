@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface InputService {
 
-    List<String> processInput();
+    List<List<String>> processInput();
 
 }
