@@ -15,10 +15,10 @@ import java.util.List;
 @Service
 public class ParkingService {
 
-    private InputService inputService;
-    private EnterEventService enterEventService;
-    private ExitEventService exitEventService;
-    private LotService lotService;
+    private final InputService inputService;
+    private final EnterEventService enterEventService;
+    private final ExitEventService exitEventService;
+    private final LotService lotService;
 
     private static final String VEHICLE_CAR = "car";
     private static final String VEHICLE_MOTORCYCLE = "motorcycle";
@@ -47,7 +47,7 @@ public class ParkingService {
     }
 
     private boolean isAvailableLotsSet(String lotCount) {
-        String[] availableLots = lotCount.trim().split("//s+");
+        String[] availableLots = lotCount.trim().split("\\s+");
 
         if(availableLots.length != 2) {
             System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Skipping file, wrong format for lot count."));
@@ -84,7 +84,7 @@ public class ParkingService {
     }
 
     private void parseDataToEvent(String data) {
-        String[] splitData = data.trim().split("//s+");
+        String[] splitData = data.trim().split("\\s+");
 
         switch(splitData.length) {
             case 4:
@@ -100,7 +100,7 @@ public class ParkingService {
 
     private void processEnterEvent(String[] data) {
         if(!EVENT_ENTER.equals(data[0])) {
-            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Bad event, not recognized."));
+            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Bad ENTER event, event passed not recognized."));
             return;
         }
 
@@ -116,14 +116,14 @@ public class ParkingService {
 
     private void processExitEvent(String[] data) {
         if(!EVENT_EXIT.equals(data[0])) {
-            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Bad event, not recognized."));
+            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Bad EXIT event, event passed not recognized."));
             return;
         }
 
         Event event = Event.builder()
                 .event(data[0])
-                .plateNumber(data[2])
-                .timestamp(Long.valueOf(data[3]))
+                .plateNumber(data[1])
+                .timestamp(Long.valueOf(data[2]))
                 .build();
 
         System.out.println(exitEventService.processEvent(event));
@@ -141,7 +141,7 @@ public class ParkingService {
      * instead of relying to Redis' TTL capability.
      *
      * In real life scenario though, this is not advisable
-     * and can severly affect performance.
+     * and can severely affect performance.
      */
     private void cleanUp() {
         lotService.cleanLots();
