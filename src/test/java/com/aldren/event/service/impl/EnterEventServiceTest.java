@@ -1,5 +1,6 @@
 package com.aldren.event.service.impl;
 
+import com.aldren.event.model.Event;
 import com.aldren.event.repository.EnterEventRepository;
 import com.aldren.event.service.EventService;
 import com.aldren.lot.service.LotService;
@@ -46,7 +47,12 @@ public class EnterEventServiceTest {
 
     @Test
     public void carOutputAcceptTest() {
-        String[] carEvent = {"Enter", "car", "SGX1234A", "1613541902"};
+        Event carEvent =Event.builder()
+                .event("Enter")
+                .vehicleType("car")
+                .plateNumber("SGX1234A")
+                .timestamp(Long.valueOf("1613541902"))
+                .build();
 
         String carOutput = testOutputAcceptData(carEvent, CAR_LOT_1);
         String carExpectedOutput = "Accept " + CAR_LOT_1;
@@ -56,7 +62,12 @@ public class EnterEventServiceTest {
 
     @Test
     public void motorcycleOutputAcceptTest() {
-        String[] motorcycleEvent = {"Enter", "motorcycle", "SGX1234A", "1613541902"};
+        Event motorcycleEvent = Event.builder()
+                .event("Enter")
+                .vehicleType("motorcycle")
+                .plateNumber("SGX1234A")
+                .timestamp(Long.valueOf("1613541902"))
+                .build();
 
         String carOutput = testOutputAcceptData(motorcycleEvent, MOTORCYCLE_LOT_1);
         String carExpectedOutput = "Accept " + MOTORCYCLE_LOT_1;
@@ -66,7 +77,12 @@ public class EnterEventServiceTest {
 
     @Test
     public void outputRejectTest() {
-        String[] event = {"Enter", "motorcycle", "SGX1234A", "1613541902"};
+        Event event = Event.builder()
+                .event("Enter")
+                .vehicleType("motorcycle")
+                .plateNumber("SGX1234A")
+                .timestamp(Long.valueOf("1613541902"))
+                .build();
 
         when(lotService.getNextAvailableLot(anyString())).thenReturn("");
 
@@ -76,7 +92,24 @@ public class EnterEventServiceTest {
         assertEquals(carExpectedOutput, carOutput);
     }
 
-    private String testOutputAcceptData(String[] event, String lot) {
+    @Test
+    public void outputPlateNumberAlreadyParkedTest() {
+        Event event = Event.builder()
+                .event("car")
+                .vehicleType("motorcycle")
+                .plateNumber("SGX1234A")
+                .timestamp(Long.valueOf("1613541902"))
+                .build();
+
+        when(enterEventRepository.existsById(anyString())).thenReturn(true);
+
+        String carOutput = eventService.processEvent(event);
+        String carExpectedOutput = "Bad Data:: Vehicle with given plate number is already parked";
+
+        assertEquals(carExpectedOutput, carOutput);
+    }
+
+    private String testOutputAcceptData(Event event, String lot) {
         when(lotService.getNextAvailableLot(anyString())).thenReturn(lot);
         return eventService.processEvent(event);
     }

@@ -1,7 +1,9 @@
 package com.aldren.event.service;
 
+import com.aldren.event.model.Event;
+
 public interface EventService {
 
-    String processEvent(String[] event);
+    String processEvent(Event event);
 
 }
