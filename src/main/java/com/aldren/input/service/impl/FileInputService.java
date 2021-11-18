@@ -35,6 +35,15 @@ public class FileInputService implements InputService {
         this.fileInputProperties = fileInputProperties;
     }
 
+    /**
+     *
+     * @return
+     *
+     * This service will always by default look the input file
+     * on the classpath resources. If it didn't find the file
+     * there, it will then look in the file system where the
+     * app is running.
+     */
     @Override
     public List<List<String>> processInput() {
         return getInputFromClasspath();
@@ -57,7 +66,7 @@ public class FileInputService implements InputService {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            log.warn("Failed to get file from resources directory {}; Will try getting from file system", fileInputProperties.getLocation());
+            log.info("Failed to get file from resources directory {}; Will try getting from file system", fileInputProperties.getLocation());
             return getInputForFileSystem();
         }
     }
