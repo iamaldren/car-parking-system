@@ -4,6 +4,7 @@ import com.aldren.input.service.InputService;
 import com.aldren.properties.FileInputProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Service
+@EnableConfigurationProperties(FileInputProperties.class)
 @ConditionalOnProperty(prefix = "app.input", name = "method", havingValue = "file")
 public class FileInputService implements InputService {
 

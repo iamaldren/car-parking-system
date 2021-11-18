@@ -4,7 +4,8 @@ spring:
       on-profile: test
 
 app:
-  input:
-    method: "file"
-    file:
-      location: "/inputs"
+  system:
+    input:
+      method: "file"
+      file:
+        location: "/inputs"
