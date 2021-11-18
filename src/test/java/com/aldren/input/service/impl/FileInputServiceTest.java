@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ContextConfiguration(initializers = ConfigDataApplicationContextInitializer.class)
 @EnableConfigurationProperties(value = FileInputProperties.class)
 @ActiveProfiles("test")
-public class FileInputServiceImplTest {
+public class FileInputServiceTest {
 
     @Autowired
     private FileInputProperties fileInputProperties;
