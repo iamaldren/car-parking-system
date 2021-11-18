@@ -3,3 +3,7 @@ app:
     method: "file"
     file:
       location: "/inputs"
+  redis:
+    host: "localhost"
+    port: 6379
+    password:
