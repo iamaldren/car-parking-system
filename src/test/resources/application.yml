@@ -9,3 +9,9 @@ app:
       method: "file"
       file:
         location: "/inputs"
+    vehicle:
+      types:
+        - kind: "car"
+          fee: 2.00
+        - kind: "motorcycle"
+          fee: 1.00

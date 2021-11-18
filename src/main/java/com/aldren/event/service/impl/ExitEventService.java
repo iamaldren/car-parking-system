@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 public class ExitEventService implements EventService {
 
     @Override
-    public void processEvent(String[] event) {
-
+    public String processEvent(String[] event) {
+        return "";
     }
 
 }
