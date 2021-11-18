@@ -29,7 +29,7 @@ public class FileInputServiceImplTest {
 
     @BeforeEach
     public void init() {
-        inputService = new FileInputServiceImpl(fileInputProperties);
+        inputService = new FileInputService(fileInputProperties);
     }
 
     @Test
