@@ -55,4 +55,9 @@ public class EnterEventService implements EventService {
         return String.format(OUTPUT_ACCEPT, nextAvailableLot);
     }
 
+    @Override
+    public void cleanEvent() {
+        enterEventRepository.deleteAll();
+    }
+
 }

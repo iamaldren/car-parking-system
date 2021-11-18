@@ -74,8 +74,8 @@ public class LotService {
         updateLot(vehicleType, lot, AVAILABLE_LOT);
     }
 
-    public void cleanLots(List<String> vehicleTypes) {
-        lotAvailabilityRepository.deleteAllById(vehicleTypes);
+    public void cleanLots() {
+        lotAvailabilityRepository.deleteAll();
     }
 
     private void updateLot(String vehicleType, String lot, String status) {

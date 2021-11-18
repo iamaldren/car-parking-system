@@ -6,4 +6,6 @@ public interface EventService {
 
     String processEvent(Event event);
 
+    void cleanEvent();
+
 }

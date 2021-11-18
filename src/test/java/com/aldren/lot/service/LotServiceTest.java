@@ -9,7 +9,6 @@ import org.mockito.Spy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -76,9 +75,9 @@ public class LotServiceTest {
 
     @Test
     public void cleanLotsTest() {
-        lotService.cleanLots(new ArrayList<>());
+        lotService.cleanLots();
 
-        verify(lotAvailabilityRepository, times(1)).deleteAllById(any());
+        verify(lotAvailabilityRepository, times(1)).deleteAll();
     }
 
     private void mockAvailableLotsData() {

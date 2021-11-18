@@ -53,6 +53,11 @@ public class ExitEventService implements EventService {
         return String.format(OUTPUT, exitEvent.getLot(), exitEvent.getTotalFee());
     }
 
+    @Override
+    public void cleanEvent() {
+        exitEventRepository.deleteAll();
+    }
+
     private BigDecimal computeTotalFee(long exitTime, long enterTime, BigDecimal startingFee) {
         Date exitDateTime = new Date(exitTime*1000);
         Date enterDateTime = new Date(enterTime*1000);
