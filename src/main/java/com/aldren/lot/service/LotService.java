@@ -5,7 +5,7 @@ import com.aldren.lot.repository.LotAvailabilityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +30,10 @@ public class LotService {
      *
      * Creating lot slots.
      */
-    public void setAvailableLots(String vehicleType, String lotName, String lotCount) {
-        Map<String, String> availableLots = new HashMap<>();
+    public void setAvailableLots(String vehicleType, String lotName, int lotCount) {
+        Map<String, String> availableLots = new LinkedHashMap<>();
 
-        for(int i = 1; i <= 4; i++) {
+        for(int i = 1; i <= lotCount; i++) {
             availableLots.put(lotName+i, AVAILABLE_LOT);
         }
 
@@ -63,7 +63,7 @@ public class LotService {
                 .filter(map -> !map.getValue().equals(OCCUPIED_LOT))
                 .findFirst()
                 .get()
-                .getValue();
+                .getKey();
     }
 
     public void parkOnNextAvailableLot(String vehicleType, String lot) {
