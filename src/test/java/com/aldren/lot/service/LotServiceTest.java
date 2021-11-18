@@ -55,6 +55,7 @@ public class LotServiceTest {
         lotService.parkOnNextAvailableLot("car", "CarLot2");
 
         verify(lotAvailabilityRepository, times(1)).findByVehicleType(any());
+        verify(lotAvailabilityRepository, times(1)).save(any());
 
         String nextAvailableLot = lotService.getNextAvailableLot("car");
         assertEquals("CarLot4", nextAvailableLot);
@@ -67,6 +68,7 @@ public class LotServiceTest {
         lotService.releasedOccupiedLot("car", "CarLot1");
 
         verify(lotAvailabilityRepository, times(1)).findByVehicleType(any());
+        verify(lotAvailabilityRepository, times(1)).save(any());
 
         String nextAvailableLot = lotService.getNextAvailableLot("car");
         assertEquals("CarLot1", nextAvailableLot);

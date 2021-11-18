@@ -79,10 +79,9 @@ public class LotService {
     }
 
     private void updateLot(String vehicleType, String lot, String status) {
-        lotAvailabilityRepository
-                .findByVehicleType(vehicleType)
-                .getAvailableLots()
-                .put(lot, status);
+        LotAvailability availability = lotAvailabilityRepository.findByVehicleType(vehicleType);
+        availability.getAvailableLots().put(lot, status);
+        lotAvailabilityRepository.save(availability);
     }
 
 }
