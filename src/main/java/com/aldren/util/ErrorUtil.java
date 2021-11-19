@@ -5,6 +5,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ErrorUtil {
 
-    public static final String ERROR_BAD_DATA = "Bad Data:: %s";
+    public static final String ERROR_BAD_DATA = "Bad Data::";
 
 }

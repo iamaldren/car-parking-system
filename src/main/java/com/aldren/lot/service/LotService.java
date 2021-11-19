@@ -1,16 +1,15 @@
 package com.aldren.lot.service;
 
+import com.aldren.exception.VehicleNotSupportedException;
 import com.aldren.lot.entity.LotAvailability;
 import com.aldren.lot.repository.LotAvailabilityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -57,19 +56,21 @@ public class LotService {
      *
      * E.g Available lots are Lot2, Lot4, Lot5. It will return Lot2
      */
-    public String getNextAvailableLot(String vehicleType) {
+    public String getNextAvailableLot(String vehicleType) throws VehicleNotSupportedException {
         Optional<LotAvailability> lotAvailability = lotAvailabilityRepository.findById(vehicleType);
-        if(lotAvailability.isPresent()) {
-            Optional<Map.Entry<String, String>> availableLots = lotAvailability.get()
-                    .getAvailableLots()
-                    .entrySet()
-                    .stream()
-                    .filter(map -> !map.getValue().equals(OCCUPIED_LOT))
-                    .findFirst();
+        if(!lotAvailability.isPresent()) {
+            throw new VehicleNotSupportedException(String.format("Vehicle %s is not yet supported.", vehicleType));
+        }
 
-            if(availableLots.isPresent()) {
-                return availableLots.get().getKey();
-            }
+        Optional<Map.Entry<String, String>> availableLots = lotAvailability.get()
+                .getAvailableLots()
+                .entrySet()
+                .stream()
+                .filter(map -> !map.getValue().equals(OCCUPIED_LOT))
+                .findFirst();
+
+        if(availableLots.isPresent()) {
+            return availableLots.get().getKey();
         }
 
         return Strings.EMPTY;

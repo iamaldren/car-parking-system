@@ -50,13 +50,13 @@ public class ParkingService {
         String[] availableLots = lotCount.trim().split("\\s+");
 
         if(availableLots.length != 2) {
-            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Skipping file, wrong format for lot count."));
+            log.warn("{} Skipping file, wrong format for lot count {}.", ErrorUtil.ERROR_BAD_DATA, lotCount);
             return false;
         }
 
         if(!isDataNumeric(availableLots[0])
                 || !isDataNumeric(availableLots[1])) {
-            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Skipping file, lot count is not numeric"));
+            log.warn("{} Skipping file, lot count is not numeric [{} {}].", ErrorUtil.ERROR_BAD_DATA, availableLots[0], availableLots[1]);
             return false;
         }
 
@@ -87,23 +87,22 @@ public class ParkingService {
         String[] splitData = data.trim().split("\\s+");
 
         switch(splitData.length) {
-            case 4:
-                processEnterEvent(splitData);
-                break;
             case 3:
-                processExitEvent(splitData);
-                break;
+                if(EVENT_EXIT.equals(splitData[0])) {
+                    processExitEvent(splitData);
+                    break;
+                }
+            case 4:
+                if(EVENT_ENTER.equals(splitData[0])) {
+                    processEnterEvent(splitData);
+                    break;
+                }
             default:
-                System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Skipping event, wrong format."));
+                System.out.println(String.format("%1$s Skipping event, wrong format. Recognized events are [ENTER, EXIT]. Data length is expected to be 4 for ENTER and 3 for EXIT. [%2$s]", ErrorUtil.ERROR_BAD_DATA, data));
         }
     }
 
     private void processEnterEvent(String[] data) {
-        if(!EVENT_ENTER.equals(data[0])) {
-            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Bad ENTER event, event passed not recognized."));
-            return;
-        }
-
         Event event = Event.builder()
                 .event(data[0])
                 .vehicleType(data[1])
@@ -115,11 +114,6 @@ public class ParkingService {
     }
 
     private void processExitEvent(String[] data) {
-        if(!EVENT_EXIT.equals(data[0])) {
-            System.out.println(String.format(ErrorUtil.ERROR_BAD_DATA, "Bad EXIT event, event passed not recognized."));
-            return;
-        }
-
         Event event = Event.builder()
                 .event(data[0])
                 .plateNumber(data[1])
@@ -144,6 +138,7 @@ public class ParkingService {
      * and can severely affect performance.
      */
     private void cleanUp() {
+        log.info("Cleaning up storage");
         lotService.cleanLots();
         enterEventService.cleanEvent();
         exitEventService.cleanEvent();

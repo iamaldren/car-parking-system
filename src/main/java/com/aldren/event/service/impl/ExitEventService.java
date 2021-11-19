@@ -33,10 +33,10 @@ public class ExitEventService implements EventService {
 
     @Override
     public String processEvent(Event event) {
-        Optional<EnterEvent> enterEvent = Optional.ofNullable(enterEventRepository.findByPlateNumber(event.getPlateNumber()));
+        Optional<EnterEvent> enterEvent = enterEventRepository.findById(event.getPlateNumber());
         if(exitEventRepository.existsById(event.getPlateNumber())
                 || !enterEvent.isPresent()) {
-            return String.format(ErrorUtil.ERROR_BAD_DATA, "Vehicle with given plate number is not parked or not in the system.");
+            return String.format("%1$s Vehicle with plate number of %2$s is not parked or not in the system.", ErrorUtil.ERROR_BAD_DATA, event.getPlateNumber());
         }
 
         ExitEvent exitEvent = ExitEvent.builder()

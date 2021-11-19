@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Builder
-@RedisHash("EnterEvent")
+@RedisHash("ExitEvent")
 public class ExitEvent {
 
     @Id
