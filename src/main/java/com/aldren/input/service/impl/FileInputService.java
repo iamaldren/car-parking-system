@@ -40,8 +40,8 @@ public class FileInputService implements InputService {
      *
      * This service will always by default look the input file
      * on the classpath resources. If it didn't find the file
-     * there, it will then look in the file system where the
-     * app is running.
+     * there, it will then look in the file system of the server
+     * where the app is running.
      */
     @Override
     public List<List<String>> processInput() {
