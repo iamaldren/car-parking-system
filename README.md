@@ -122,6 +122,8 @@ Any erroneous cases should be handled with an appropriate error message.
 
 ### Services
 
+#### Parking Service
+
 #### Input Service
 
 #### Lot Service
