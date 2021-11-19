@@ -103,8 +103,8 @@ Any erroneous cases should be handled with an appropriate error message.
 
 ### Assumptions
 
-1. Only 2 types of vehicle are supported. Car and Motorcycle, and other vehicles would not get processed.
-2. Only 2 types of events are supported. Enter and Exit, and other type of events would not get processed.
+1. Only 2 types of vehicle are supported, Car and Motorcycle. Any other vehicles would not get processed.
+2. Only 2 types of events are supported, Enter and Exit. Any other type of events would not get processed.
 3. File can be placed in any folder within the system (as long as it can be accessed by the app)
 4. Multiple files can be used, and all files must be processed.
 5. If multiple files are there, each file will be considered as a new setup.
