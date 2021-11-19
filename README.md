@@ -122,17 +122,83 @@ Any erroneous cases should be handled with an appropriate error message.
 
 ### Services
 
+The application has 4 main services that are responsible for the whole logic flow.
+
 #### Parking Service
+
+The class is located in the package as described below.
+
+```textmate
+app
+|--src
+|----main
+|------java
+|--------com.aldren
+|------------parking.service
+```
+The parking service is basically the first class that will be triggered to invoke the parking system process.
+
+This service will be responsible for invoking the services listed below, and for checking if the file can be processed or will be skipped.
 
 #### Input Service
 
+The class is located in the package as described below.
+
+```textmate
+app
+|--src
+|----main
+|------java
+|--------com.aldren
+|------------input.service
+```
+The input service is the one responsible for consuming the input data for processing.
+
+For this specific requirement, the input will be coming from a file. This is being handled by `FileInputService` which implements the `InputService` interface.
+
+The service will look up the file from the location defined in the property below:
+```yaml
+app:
+  input:
+    file:
+      location: "/inputs"
+```
+
 #### Lot Service
+
+The class is located in the package as described below.
+
+```textmate
+app
+|--src
+|----main
+|------java
+|--------com.aldren
+|------------lot.service
+```
+This service is responsible for setting up how many lots are available for the supported vehicle types, and for managing the available lots for each event.
 
 #### Event Service
 
-##### Enter Event
+The class is located in the package as described below.
 
-##### Exit Event
+```textmate
+app
+|--src
+|----main
+|------java
+|--------com.aldren
+|------------event.service
+```
+The event service is mainly responsible for processing the data per Enter or Exit event.
+
+#### Enter Event Service
+
+This service is responsible for allocating the vehicle (via plate number) to a lot. If there is no more lot available for the vehicle type, then it will reject.
+
+#### Exit Event Service
+
+This service is responsible for calculating the total fee, and de-allocating the vehicle to the occupied lot.
 
 ## How to run the application
 
