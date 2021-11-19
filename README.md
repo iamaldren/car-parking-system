@@ -73,14 +73,16 @@ You may use any language/framework for this exercise.
 Your program accepts an input file as an argument when running. The format of the file is
 described below:
 
+```text
 3 4
-Enter motorcycle SGX1234A 1613541902
+Enter motorcycle SGX1234A 1613541902 
 Enter car SGF9283P 1613541902
 Exit SGX1234A 1613545602
 Enter car SGP2937F 1613546029
 Enter car SDW2111W 1613549730
 Enter car SSD9281L 1613549740
 Exit SDW2111W 1613559745
+```
 
 The first line indicates the number of parking slots that are present in the space for Cars and
 Motorcycles respectively in the parking lot.
@@ -95,6 +97,7 @@ prints out the released lot and the parking fee.
 
 Given the example above, the program output would look like:
 
+```text
 Accept MotorcycleLot1
 Accept CarLot1
 MotorcycleLot1 2
@@ -102,6 +105,7 @@ Accept CarLot2
 Accept CarLot3
 Reject
 CarLot3 6
+```
 
 Any erroneous cases should be handled with an appropriate error message.
 
