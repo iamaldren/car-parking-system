@@ -3,6 +3,7 @@ package com.aldren.event.service.impl;
 import com.aldren.event.model.Event;
 import com.aldren.event.repository.EnterEventRepository;
 import com.aldren.event.service.EventService;
+import com.aldren.exception.VehicleNotSupportedException;
 import com.aldren.lot.service.LotService;
 import com.aldren.properties.VehicleProperties;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +47,7 @@ public class EnterEventServiceTest {
     }
 
     @Test
-    public void carOutputAcceptTest() {
+    public void carOutputAcceptTest() throws VehicleNotSupportedException {
         Event carEvent =Event.builder()
                 .event("Enter")
                 .vehicleType("car")
@@ -61,7 +62,7 @@ public class EnterEventServiceTest {
     }
 
     @Test
-    public void motorcycleOutputAcceptTest() {
+    public void motorcycleOutputAcceptTest() throws VehicleNotSupportedException {
         Event motorcycleEvent = Event.builder()
                 .event("Enter")
                 .vehicleType("motorcycle")
@@ -76,7 +77,7 @@ public class EnterEventServiceTest {
     }
 
     @Test
-    public void outputRejectTest() {
+    public void outputRejectTest() throws VehicleNotSupportedException {
         Event event = Event.builder()
                 .event("Enter")
                 .vehicleType("motorcycle")
@@ -104,12 +105,12 @@ public class EnterEventServiceTest {
         when(enterEventRepository.existsById(anyString())).thenReturn(true);
 
         String carOutput = eventService.processEvent(event);
-        String carExpectedOutput = "Bad Data:: Vehicle with given plate number is already parked";
+        String carExpectedOutput = "Bad Data:: Vehicle with plate number of SGX1234A is already parked";
 
         assertEquals(carExpectedOutput, carOutput);
     }
 
-    private String testOutputAcceptData(Event event, String lot) {
+    private String testOutputAcceptData(Event event, String lot) throws VehicleNotSupportedException {
         when(lotService.getNextAvailableLot(anyString())).thenReturn(lot);
         return eventService.processEvent(event);
     }

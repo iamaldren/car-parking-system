@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -51,7 +52,7 @@ public class ExitEventServiceTest {
                 .fee(new BigDecimal(1))
                 .build();
 
-        when(enterEventRepository.findByPlateNumber(anyString())).thenReturn(enterEvent);
+        when(enterEventRepository.findById(anyString())).thenReturn(Optional.of(enterEvent));
         when(exitEventRepository.existsById(anyString())).thenReturn(false);
 
         Event event = Event.builder()
@@ -80,7 +81,7 @@ public class ExitEventServiceTest {
                 .fee(new BigDecimal(1))
                 .build();
 
-        when(enterEventRepository.findByPlateNumber(anyString())).thenReturn(enterEvent);
+        when(enterEventRepository.findById(anyString())).thenReturn(Optional.of(enterEvent));
         when(exitEventRepository.existsById(anyString())).thenReturn(true);
 
         Event event = Event.builder()
@@ -91,14 +92,14 @@ public class ExitEventServiceTest {
 
         String output = eventService.processEvent(event);
 
-        String expectedOutput = "Bad Data:: Vehicle with given plate number is not parked or not in the system.";
+        String expectedOutput = "Bad Data:: Vehicle with plate number of SGX1234A is not parked or not in the system.";
 
         assertEquals(expectedOutput, output);
     }
 
     @Test
     public void outputExitPlateNumberDoesntExistsInEnterEventTest() {
-        when(enterEventRepository.findByPlateNumber(anyString())).thenReturn(null);
+        when(enterEventRepository.findById(anyString())).thenReturn(Optional.empty());
 
         Event event = Event.builder()
                 .plateNumber(PLATE_NUMBER)
@@ -108,7 +109,7 @@ public class ExitEventServiceTest {
 
         String output = eventService.processEvent(event);
 
-        String expectedOutput = "Bad Data:: Vehicle with given plate number is not parked or not in the system.";
+        String expectedOutput = "Bad Data:: Vehicle with plate number of SGX1234A is not parked or not in the system.";
 
         assertEquals(expectedOutput, output);
     }

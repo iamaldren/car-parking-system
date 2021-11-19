@@ -1,5 +1,6 @@
 package com.aldren.lot.service;
 
+import com.aldren.exception.VehicleNotSupportedException;
 import com.aldren.lot.entity.LotAvailability;
 import com.aldren.lot.repository.LotAvailabilityRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,7 +42,7 @@ public class LotServiceTest {
     }
 
     @Test
-    public void getNextAvailableLotTest() {
+    public void getNextAvailableLotTest() throws VehicleNotSupportedException {
         mockAvailableLotsData();
 
         String availableLot = lotService.getNextAvailableLot("car");
@@ -48,12 +50,12 @@ public class LotServiceTest {
     }
 
     @Test
-    public void parkOnNextAvailableLotTest() {
+    public void parkOnNextAvailableLotTest() throws VehicleNotSupportedException {
         mockAvailableLotsData();
 
         lotService.parkOnNextAvailableLot("car", "CarLot2");
 
-        verify(lotAvailabilityRepository, times(1)).findByVehicleType(any());
+        verify(lotAvailabilityRepository, times(1)).findById(any());
         verify(lotAvailabilityRepository, times(1)).save(any());
 
         String nextAvailableLot = lotService.getNextAvailableLot("car");
@@ -61,12 +63,12 @@ public class LotServiceTest {
     }
 
     @Test
-    public void releasedOccupiedLotTest() {
+    public void releasedOccupiedLotTest() throws VehicleNotSupportedException {
         mockAvailableLotsData();
 
         lotService.releasedOccupiedLot("car", "CarLot1");
 
-        verify(lotAvailabilityRepository, times(1)).findByVehicleType(any());
+        verify(lotAvailabilityRepository, times(1)).findById(any());
         verify(lotAvailabilityRepository, times(1)).save(any());
 
         String nextAvailableLot = lotService.getNextAvailableLot("car");
@@ -93,7 +95,7 @@ public class LotServiceTest {
                 .availableLots(lots)
                 .build();
 
-        doReturn(availability).when(lotAvailabilityRepository).findByVehicleType(anyString());
+        doReturn(Optional.of(availability)).when(lotAvailabilityRepository).findById(anyString());
     }
 
 }
