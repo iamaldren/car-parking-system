@@ -9,6 +9,8 @@ spring:
 
 app:
   system:
+    run:
+      method: scheduler
     input:
       method: "file"
       file:
