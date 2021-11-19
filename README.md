@@ -38,14 +38,6 @@ $ docker-compose up
 
 Please follow [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04)
 
-## How to run the application
-
-### Preparation
-
-### Configuration
-
-### Execution
-
 ## Car Parking System Application
 
 ### Requirement
@@ -111,7 +103,22 @@ Any erroneous cases should be handled with an appropriate error message.
 
 ### Assumptions
 
+1. Only 2 types of vehicle are supported. Car and Motorcycle, and other vehicles would not get processed.
+2. Only 2 types of events are supported. Enter and Exit, and other type of events would not get processed.
+3. File can be placed in any folder within the system (as long as it can be accessed by the app)
+4. Multiple files can be used, and all files must be processed.
+5. If multiple files are there, each file will be considered as a new setup.
+6. The data and results don't need to get persisted
+7. Result must be in the same order as the input was processed.
+8. If the first line of the file is more than 2, or not in numeric format. The whole file will be skipped and not get processed. This part must be accurate, as it will be the main factor to identify the number of lots available.
+
 ### Edge Cases
+
+1. If the first line of the file is more than 2, or not in numeric format. The whole file will be skipped and not get processed.
+2. If the event is neither Enter nor Exit. The data will be skipped, and proceed to process the next line.
+3. If the vehicle is neither Car nor Motorcycle. The data will be skipped, and proceed to process the next line.
+4. Duplicate processing of plate number for the same event is not allowed. E.g. If plate number had entered previously and not yet exited, the plate number would not get processed for another Enter event until he exits the current one.
+5. Exit event without an Enter event would not get processed. Data would be skipped.
 
 ### Services
 
@@ -124,5 +131,13 @@ Any erroneous cases should be handled with an appropriate error message.
 ##### Enter Event
 
 ##### Exit Event
+
+## How to run the application
+
+### Preparation
+
+### Configuration
+
+### Execution
 
 ## What can be improved?
