@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Slf4j
 @Service
 @EnableConfigurationProperties(FileInputProperties.class)
-@ConditionalOnProperty(prefix = "app.input", name = "method", havingValue = "file")
+@ConditionalOnProperty(prefix = "app.system.input", name = "method", havingValue = "file")
 public class FileInputService implements InputService {
 
     private final FileInputProperties fileInputProperties;

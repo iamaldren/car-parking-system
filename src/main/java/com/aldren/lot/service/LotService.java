@@ -3,11 +3,14 @@ package com.aldren.lot.service;
 import com.aldren.lot.entity.LotAvailability;
 import com.aldren.lot.repository.LotAvailabilityRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -55,15 +58,21 @@ public class LotService {
      * E.g Available lots are Lot2, Lot4, Lot5. It will return Lot2
      */
     public String getNextAvailableLot(String vehicleType) {
-        return lotAvailabilityRepository
-                .findByVehicleType(vehicleType)
-                .getAvailableLots()
-                .entrySet()
-                .stream()
-                .filter(map -> !map.getValue().equals(OCCUPIED_LOT))
-                .findFirst()
-                .get()
-                .getKey();
+        Optional<LotAvailability> lotAvailability = lotAvailabilityRepository.findById(vehicleType);
+        if(lotAvailability.isPresent()) {
+            Optional<Map.Entry<String, String>> availableLots = lotAvailability.get()
+                    .getAvailableLots()
+                    .entrySet()
+                    .stream()
+                    .filter(map -> !map.getValue().equals(OCCUPIED_LOT))
+                    .findFirst();
+
+            if(availableLots.isPresent()) {
+                return availableLots.get().getKey();
+            }
+        }
+
+        return Strings.EMPTY;
     }
 
     public void parkOnNextAvailableLot(String vehicleType, String lot) {
@@ -79,7 +88,7 @@ public class LotService {
     }
 
     private void updateLot(String vehicleType, String lot, String status) {
-        LotAvailability availability = lotAvailabilityRepository.findByVehicleType(vehicleType);
+        LotAvailability availability = lotAvailabilityRepository.findById(vehicleType).get();
         availability.getAvailableLots().put(lot, status);
         lotAvailabilityRepository.save(availability);
     }
