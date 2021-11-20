@@ -27,12 +27,6 @@ public class ParkingService {
     private final LotService lotService;
     private final VehicleProperties vehicleProperties;
 
-    private static final String VEHICLE_CAR = "car";
-    private static final String VEHICLE_MOTORCYCLE = "motorcycle";
-
-    private static final String LOT_NAME_CAR = "CarLot";
-    private static final String LOT_NAME_MOTORCYCLE = "MotorcycleLot";
-
     private static final String EVENT_ENTER = "Enter";
     private static final String EVENT_EXIT = "Exit";
 
