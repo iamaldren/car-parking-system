@@ -34,7 +34,7 @@ $ cd <project_dir>
 $ docker-compose up
 ```
 
-#### Manual installtion of Redis
+#### Manual installation of Redis
 
 Please follow [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04)
 
@@ -212,7 +212,7 @@ This service is responsible for calculating the total fee, and de-allocating the
 
 ### Configuration
 
-All these configurations are location in the `application.yml` file, which can be found in the folder structure defined below.
+All these configurations are located in the `application.yml` file, which can be found in the folder structure defined below.
 ```textmate
 app
 |--src
