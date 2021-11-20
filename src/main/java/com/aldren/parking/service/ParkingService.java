@@ -5,20 +5,27 @@ import com.aldren.event.service.impl.EnterEventService;
 import com.aldren.event.service.impl.ExitEventService;
 import com.aldren.input.service.InputService;
 import com.aldren.lot.service.LotService;
+import com.aldren.properties.VehicleProperties;
 import com.aldren.util.ErrorUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
+@EnableConfigurationProperties(VehicleProperties.class)
 public class ParkingService {
 
     private final InputService inputService;
     private final EnterEventService enterEventService;
     private final ExitEventService exitEventService;
     private final LotService lotService;
+    private final VehicleProperties vehicleProperties;
 
     private static final String VEHICLE_CAR = "car";
     private static final String VEHICLE_MOTORCYCLE = "motorcycle";
@@ -32,11 +39,13 @@ public class ParkingService {
     public ParkingService(InputService inputService,
                           EnterEventService enterEventService,
                           ExitEventService exitEventService,
-                          LotService lotService) {
+                          LotService lotService,
+                          VehicleProperties vehicleProperties) {
         this.inputService = inputService;
         this.enterEventService = enterEventService;
         this.exitEventService = exitEventService;
         this.lotService = lotService;
+        this.vehicleProperties = vehicleProperties;
     }
 
     public void processInput() {
@@ -49,19 +58,24 @@ public class ParkingService {
     private boolean isAvailableLotsSet(String lotCount) {
         String[] availableLots = lotCount.trim().split("\\s+");
 
-        if(availableLots.length != 2) {
+        if(availableLots.length != vehicleProperties.getTypes().size()) {
             log.warn("{} Skipping file, wrong format for lot count {}.", ErrorUtil.ERROR_BAD_DATA, lotCount);
             return false;
         }
 
-        if(!isDataNumeric(availableLots[0])
-                || !isDataNumeric(availableLots[1])) {
+        if(Arrays.stream(availableLots)
+                .filter(lot -> isDataNumeric(lot))
+                .collect(Collectors.toList())
+                .size() != vehicleProperties.getTypes().size()) {
             log.warn("{} Skipping file, lot count is not numeric [{} {}].", ErrorUtil.ERROR_BAD_DATA, availableLots[0], availableLots[1]);
             return false;
         }
 
-        lotService.setAvailableLots(VEHICLE_CAR, LOT_NAME_CAR, Integer.parseInt(availableLots[0]));
-        lotService.setAvailableLots(VEHICLE_MOTORCYCLE, LOT_NAME_MOTORCYCLE, Integer.parseInt(availableLots[1]));
+        IntStream.range(0, availableLots.length)
+                .forEach(i -> {
+                    String vehicleType = vehicleProperties.getKindByIndex().get(i);
+                    lotService.setAvailableLots(vehicleType, vehicleProperties.getLotName().get(vehicleType), Integer.parseInt(availableLots[i]));
+                });
 
         return true;
     }

@@ -4,11 +4,16 @@ import com.aldren.event.service.impl.EnterEventService;
 import com.aldren.event.service.impl.ExitEventService;
 import com.aldren.input.service.InputService;
 import com.aldren.lot.service.LotService;
+import com.aldren.properties.VehicleProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -18,6 +23,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
+@ContextConfiguration(initializers = ConfigDataApplicationContextInitializer.class)
+@EnableConfigurationProperties(value = VehicleProperties.class)
 @ActiveProfiles("test")
 public class ParkingServiceTest {
 
@@ -33,11 +40,14 @@ public class ParkingServiceTest {
     @Mock
     private LotService lotService;
 
+    @Autowired
+    private VehicleProperties vehicleProperties;
+
     private ParkingService parkingService;
 
     @BeforeEach
     public void init() {
-        parkingService = new ParkingService(inputService, enterEventService, exitEventService, lotService);
+        parkingService = new ParkingService(inputService, enterEventService, exitEventService, lotService, vehicleProperties);
     }
 
     @Test
