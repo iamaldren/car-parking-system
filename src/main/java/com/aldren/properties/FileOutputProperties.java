@@ -11,7 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class FileOutputProperties {
 
     private String location;
-    private String name;
     private boolean enabled;
 
 }

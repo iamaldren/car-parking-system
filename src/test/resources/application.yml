@@ -13,7 +13,6 @@ app:
       file:
         enabled: true
         location: "/outputs"
-        name: "output.txt"
     vehicle:
       types:
         - kind: "car"

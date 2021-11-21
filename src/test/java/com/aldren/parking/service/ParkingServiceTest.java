@@ -83,7 +83,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
-        verify(outputService, times(9)).writeOutput(anyString());
+        verify(outputService, times(7)).writeOutput(anyString());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class ParkingServiceTest {
         verify(lotService, times(0)).cleanLots();
         verify(enterEventService, times(0)).cleanEvent();
         verify(exitEventService, times(0)).cleanEvent();
-        verify(outputService, times(2)).writeOutput(anyString());
+        verify(outputService, times(1)).writeOutput(anyString());
     }
 
     @Test
@@ -173,7 +173,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
-        verify(outputService, times(10)).writeOutput(anyString());
+        verify(outputService, times(8)).writeOutput(anyString());
     }
 
     @Test
@@ -203,7 +203,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
-        verify(outputService, times(9)).writeOutput(anyString());
+        verify(outputService, times(7)).writeOutput(anyString());
     }
 
     @Test
@@ -234,7 +234,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
-        verify(outputService, times(10)).writeOutput(anyString());
+        verify(outputService, times(8)).writeOutput(anyString());
     }
 
 }

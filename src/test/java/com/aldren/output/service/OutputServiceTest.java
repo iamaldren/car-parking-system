@@ -41,11 +41,11 @@ public class OutputServiceTest {
 
     @BeforeEach
     public void init() {
-        outputFilePath = tempDir.resolve(fileOutputProperties.getName());
+        outputFilePath = tempDir.resolve("output.txt");
 
         outputService = new OutputService(fileOutputProperties);
         ReflectionTestUtils.setField(outputService, "outputFilePath", outputFilePath);
-        ReflectionTestUtils.invokeMethod(outputService, "prepareFile");
+        ReflectionTestUtils.invokeMethod(outputService, "createFile");
     }
 
     @Test

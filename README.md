@@ -285,17 +285,15 @@ app:
       file:
         enabled: true
         location: "/outputs"
-        name: "output.txt"
 ```
 Where:
 - location = The folder where the output file will get created.
-- name = Name of the output file
 
-Do note that the location will always get created in the `user.home` directory.
+Do note that the location will always get created in the `user.home` directory. The name of the output file will be the same as the input file. So if the input file is `sample.txt`, the output file named `sample.txt` will get created in the output location defined.
 
 So taking the sample above, and `user.home = /home/aldren`
 
-The output file will be created in `/home/aldren/outputs/output.txt`
+The output file will be created in `/home/aldren/outputs/sample.txt`
 
 #### Vehicle types and fees
 
@@ -392,3 +390,64 @@ If you configured to execute the process via scheduler, the program will automat
 The scheduler has a `fixedDelay` of 1 min, with an `initialDelay` of 5 seconds.
 
 Output can be seen in the logs, or in the output file (if enabled).
+
+#### Output
+
+Output would be in below format:
+
+For files without any errors:
+```text
+Accept MotorcycleLot1
+Accept CarLot1
+MotorcycleLot1 2
+Accept CarLot2
+Accept CarLot3
+Reject
+CarLot3 6
+```
+
+For files with format errors:
+
+`Sample 1`:
+```text
+Accept MotorcycleLot1
+Accept CarLot1
+Bad Data:: Skipping event, wrong format. Recognized events are [ENTER, EXIT]. Data length is expected to be 4 for ENTER and 3 for EXIT. [Exit SGX1234A 1613545602 AAAAAAAAAAAA]
+Accept CarLot2
+Accept CarLot3
+Reject
+CarLot3 6
+```
+
+`Sample 2`:
+```text
+Accept MotorcycleLot1
+Accept CarLot1
+Bad Data:: Exit event time is earlier than Enter event time for plate number SGX1234A.
+Accept CarLot2
+Accept CarLot3
+Reject
+CarLot3 6
+```
+
+`Sample 3`:
+```text
+Bad Data:: Vehicle truck is not yet supported.
+Accept CarLot1
+Bad Data:: Vehicle with plate number of SGX1234A is not parked or not in the system.
+Accept CarLot2
+Accept CarLot3
+Reject
+CarLot3 6
+```
+For rejected files:
+
+`Sample 1`:
+```text
+Bad Data:: Skipping file, lot count is not numeric [3 B].
+```
+
+`Sample 2`:
+```text
+Bad Data:: Skipping file, wrong format for lot count [3 4 A].
+```

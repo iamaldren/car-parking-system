@@ -51,13 +51,15 @@ public class ParkingService {
                 .entrySet()
                 .stream()
                 .map(mapData -> {
-                    outputService.writeOutput(String.format(">>>>>>> START PROCESSING FILE:: %s\n", mapData.getKey()));
+                    log.info("Processing file {}", mapData.getKey());
+                    if(outputService.isFileOutputEnabled()) {
+                        outputService.prepareFile(mapData.getKey());
+                    }
                     return mapData.getValue();
                 })
                 .filter(data -> isAvailableLotsSet(data.get(0)))
                 .forEach(data -> {
                     processEachFile(data);
-                    outputService.writeOutput("\n>>>>>>> END\n");
                 });
     }
 
@@ -65,7 +67,7 @@ public class ParkingService {
         String[] availableLots = lotCount.trim().split("\\s+");
 
         if(availableLots.length != vehicleProperties.getTypes().size()) {
-            outputService.writeOutput(String.format("%1$s Skipping file, wrong format for lot count [%2$s].\n\n>>>>>>> END\n", ErrorUtil.ERROR_BAD_DATA, lotCount));
+            outputService.writeOutput(String.format("%1$s Skipping file, wrong format for lot count [%2$s].", ErrorUtil.ERROR_BAD_DATA, lotCount));
             return false;
         }
 
@@ -73,7 +75,7 @@ public class ParkingService {
                 .filter(lot -> isDataNumeric(lot))
                 .collect(Collectors.toList())
                 .size() != vehicleProperties.getTypes().size()) {
-            outputService.writeOutput(String.format("%1$s Skipping file, lot count is not numeric [%2$s %3$s].\n\n>>>>>>> END\n", ErrorUtil.ERROR_BAD_DATA, availableLots[0], availableLots[1]));
+            outputService.writeOutput(String.format("%1$s Skipping file, lot count is not numeric [%2$s %3$s].", ErrorUtil.ERROR_BAD_DATA, availableLots[0], availableLots[1]));
             return false;
         }
 

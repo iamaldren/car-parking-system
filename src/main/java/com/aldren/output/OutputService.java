@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,14 +24,6 @@ public class OutputService {
         this.fileOutputProperties = fileOutputProperties;
     }
 
-    @PostConstruct
-    public void init() {
-        if(fileOutputProperties.isEnabled()) {
-            preparePath();
-            prepareFile();
-        }
-    }
-
     public void writeOutput(String output) {
         System.out.println(output);
 
@@ -45,22 +36,27 @@ public class OutputService {
         }
      }
 
-     private void preparePath() {
+     public void prepareFile(String fileName) {
          String location = String.format("%1$s%2$s", System.getProperty("user.home"), fileOutputProperties.getLocation());
          if(!location.endsWith("/")) {
              location = String.format("%s/", location);
          }
-         outputFilePath = Paths.get(String.format("%1$s%2$s", location, fileOutputProperties.getName()));
+         outputFilePath = Paths.get(String.format("%1$s%2$s", location, fileName));
+         createFile();
      }
 
-    private void prepareFile() {
-        try {
-            Files.createDirectories(outputFilePath.getParent());
-            Files.deleteIfExists(outputFilePath);
-            Files.createFile(outputFilePath);
-        } catch (IOException e) {
-            log.error("Can't create file", e);
-        }
-    }
+     private void createFile() {
+         try {
+             Files.createDirectories(outputFilePath.getParent());
+             Files.deleteIfExists(outputFilePath);
+             Files.createFile(outputFilePath);
+         } catch (IOException e) {
+             log.error("Can't create file", e);
+         }
+     }
+
+     public boolean isFileOutputEnabled() {
+        return fileOutputProperties.isEnabled();
+     }
 
 }
