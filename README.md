@@ -112,7 +112,6 @@ Any erroneous cases should be handled with an appropriate error message.
 7. Result must be in the same order as the input was processed.
 8. If the first line of the file is more than 2, or not in numeric format. The whole file will be skipped and not get processed. This part must be accurate, as it will be the main factor to identify the number of lots available.
 9. Application will not flag duplicate files. If there are multiple files, each file will be processed independently regardless if contents are same.
-10. Output will only get displayed in the logs, which can be seen in the command line interface.
 
 ### Edge Cases
 
@@ -178,7 +177,23 @@ app
 |--------com.aldren
 |------------lot.service
 ```
-This service is responsible for setting up how many lots are available for the supported vehicle types, and for managing the available lots for each event.
+This service is responsible for setting up how many lots are available for the supported vehicle types, and for managing the available lots for each event. In such cases that the output file failed to get created, then it will just print the output in the logs.
+
+#### Output Service
+
+The class is located in the package as described below.
+
+```textmate
+app
+|--src
+|----main
+|------java
+|--------com.aldren
+|------------output.service
+```
+This service is responsible for printing out the output.
+
+If printing the output to a file is also enabled, then this service will be the one responsible in creating the output file too.
 
 #### Event Service
 
@@ -252,6 +267,31 @@ app:
       file:
         location: "/inputs"
 ```
+#### File Output Location
+
+To enable the output file creation, the property `app.system.output.file.enabled` must be set to true.
+
+The output file properties can be set in the application.yml as sample below.
+
+```yaml
+app:
+  system:
+    output:
+      file:
+        enabled: true
+        location: "/outputs"
+        name: "output.txt"
+```
+Where:
+- location = The folder where the output file will get created.
+- name = Name of the output file
+
+Do note that the location will always get created in the `user.home` directory.
+
+So taking the sample above, and `user.home = /home/aldren`
+
+The output file will be created in `/home/aldren/outputs/output.txt`
+
 #### Vehicle types and fees
 
 The supported vehicle types, and fees are configured in the application properties as well.
@@ -338,7 +378,7 @@ If your system doesn't have the curl command installed, please follow [here](htt
 
 The URL can also be executed via a web browser.
 
-Output can be seen in the logs.
+Output can be seen in the logs, or in the output file (if enabled).
 
 #### Executing via Scheduler
 
@@ -346,9 +386,4 @@ If you configured to execute the process via scheduler, the program will automat
 
 The scheduler has a `fixedDelay` of 1 min, with an `initialDelay` of 5 seconds.
 
-Output can be seen in the logs.
-
-## What can be improved?
-
-1. Output file.
-2. Better design.
+Output can be seen in the logs, or in the output file (if enabled).
