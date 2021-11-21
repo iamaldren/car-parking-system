@@ -39,6 +39,10 @@ public class ExitEventService implements EventService {
             return String.format("%1$s Vehicle with plate number of %2$s is not parked or not in the system.", ErrorUtil.ERROR_BAD_DATA, event.getPlateNumber());
         }
 
+        if(event.getTimestamp() < enterEvent.get().getTimestamp()) {
+            return String.format("%1$s Exit event time is earlier than Enter event time for plate number %2$s.", ErrorUtil.ERROR_BAD_DATA, event.getPlateNumber());
+        }
+
         ExitEvent exitEvent = ExitEvent.builder()
                 .plateNumber(event.getPlateNumber())
                 .timestamp(event.getTimestamp())

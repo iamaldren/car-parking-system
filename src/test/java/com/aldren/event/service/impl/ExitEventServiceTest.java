@@ -114,4 +114,30 @@ public class ExitEventServiceTest {
         assertEquals(expectedOutput, output);
     }
 
+    @Test
+    public void outputExitEventTimeEarlierThanEnterEventTimeTest() {
+        EnterEvent enterEvent = EnterEvent.builder()
+                .vehicle("motorcycle")
+                .plateNumber(PLATE_NUMBER)
+                .lot("MotorcycleLot1")
+                .timestamp(Long.valueOf(1613545602))
+                .fee(new BigDecimal(1))
+                .build();
+
+        when(enterEventRepository.findById(anyString())).thenReturn(Optional.of(enterEvent));
+        when(exitEventRepository.existsById(anyString())).thenReturn(false);
+
+        Event event = Event.builder()
+                .plateNumber(PLATE_NUMBER)
+                .event("Exit")
+                .timestamp(Long.valueOf(1613541902))
+                .build();
+
+        String output = eventService.processEvent(event);
+
+        String expectedOutput = "Bad Data:: Exit event time is earlier than Enter event time for plate number SGX1234A.";
+
+        assertEquals(expectedOutput, output);
+    }
+
 }

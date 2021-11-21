@@ -108,10 +108,13 @@ Any erroneous cases should be handled with an appropriate error message.
 3. File can be placed in any folder within the system (as long as it can be accessed by the app)
 4. Multiple files can be used, and all files must be processed.
 5. If multiple files are there, each file will be considered as a new setup.
-6. The data and results don't need to get persisted
+6. The data and results don't need to get persisted in any storage system.
 7. Result must be in the same order as the input was processed.
 8. If the first line of the file is more than 2, or not in numeric format. The whole file will be skipped and not get processed. This part must be accurate, as it will be the main factor to identify the number of lots available.
-9. Application will not flag duplicate files. If there are multiple files, each file will be processed independently regardless if contents are same.
+9. If any event (subsequent lines after the first line) has any problems, only the line will get skipped and process the next one. 
+10. Application will not flag duplicate files. If there are multiple files, each file will be processed independently regardless if contents are same.
+11. The application will always assume that an Enter Event has 4 parameters, in any case the parameters are not equal to 4, it will not be treated as an Enter event.
+12. The application will always assume that an Exit Event has 4 parameters, in any case the parameters are not equal to 3, it will not be treated as an Exit event.
 
 ### Edge Cases
 
@@ -120,6 +123,8 @@ Any erroneous cases should be handled with an appropriate error message.
 3. If the vehicle is neither Car nor Motorcycle. The data will be skipped, and proceed to process the next line.
 4. Duplicate processing of plate number for the same event is not allowed. E.g. If plate number had entered previously and not yet exited, the plate number would not get processed for another Enter event until he exits the current one.
 5. Exit event without an Enter event would not get processed. Data would be skipped.
+6. Exit event whose time is earlier than Enter event would not get processed. Data would be skipped.
+7. If the parameters count for both Enter and Exit event are not equal to 4 and 3 respectively, the event would not get processed. Data would be skipped.
 
 ### Services
 
