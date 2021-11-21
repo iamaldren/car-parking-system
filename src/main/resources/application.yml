@@ -10,10 +10,15 @@ spring:
 app:
   system:
     run:
-      method: scheduler
+      method: "scheduler"
     input:
       file:
         location: "/inputs"
+    output:
+       file:
+         enabled: true
+         location: "/outputs"
+         name: "output.txt"
     vehicle:
       types:
         - kind: "car"

@@ -5,6 +5,7 @@ import com.aldren.event.service.impl.EnterEventService;
 import com.aldren.event.service.impl.ExitEventService;
 import com.aldren.input.service.InputService;
 import com.aldren.lot.service.LotService;
+import com.aldren.output.OutputService;
 import com.aldren.properties.VehicleProperties;
 import com.aldren.util.ErrorUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class ParkingService {
     private final ExitEventService exitEventService;
     private final LotService lotService;
     private final VehicleProperties vehicleProperties;
+    private final OutputService outputService;
 
     private static final String EVENT_ENTER = "Enter";
     private static final String EVENT_EXIT = "Exit";
@@ -34,26 +36,36 @@ public class ParkingService {
                           EnterEventService enterEventService,
                           ExitEventService exitEventService,
                           LotService lotService,
-                          VehicleProperties vehicleProperties) {
+                          VehicleProperties vehicleProperties,
+                          OutputService outputService) {
         this.inputService = inputService;
         this.enterEventService = enterEventService;
         this.exitEventService = exitEventService;
         this.lotService = lotService;
         this.vehicleProperties = vehicleProperties;
+        this.outputService = outputService;
     }
 
     public void processInput() {
         inputService.processInput()
+                .entrySet()
                 .stream()
+                .map(mapData -> {
+                    outputService.writeOutput(String.format(">>>>>>> START PROCESSING FILE:: %s\n", mapData.getKey()));
+                    return mapData.getValue();
+                })
                 .filter(data -> isAvailableLotsSet(data.get(0)))
-                .forEach(this::processEachFile);
+                .forEach(data -> {
+                    processEachFile(data);
+                    outputService.writeOutput("\n>>>>>>> END\n");
+                });
     }
 
     private boolean isAvailableLotsSet(String lotCount) {
         String[] availableLots = lotCount.trim().split("\\s+");
 
         if(availableLots.length != vehicleProperties.getTypes().size()) {
-            log.warn("{} Skipping file, wrong format for lot count {}.", ErrorUtil.ERROR_BAD_DATA, lotCount);
+            outputService.writeOutput(String.format("%1$s Skipping file, wrong format for lot count [%2$s].\n\n>>>>>>> END\n", ErrorUtil.ERROR_BAD_DATA, lotCount));
             return false;
         }
 
@@ -61,7 +73,7 @@ public class ParkingService {
                 .filter(lot -> isDataNumeric(lot))
                 .collect(Collectors.toList())
                 .size() != vehicleProperties.getTypes().size()) {
-            log.warn("{} Skipping file, lot count is not numeric [{} {}].", ErrorUtil.ERROR_BAD_DATA, availableLots[0], availableLots[1]);
+            outputService.writeOutput(String.format("%1$s Skipping file, lot count is not numeric [%2$s %3$s].\n\n>>>>>>> END\n", ErrorUtil.ERROR_BAD_DATA, availableLots[0], availableLots[1]));
             return false;
         }
 
@@ -106,7 +118,7 @@ public class ParkingService {
                     break;
                 }
             default:
-                System.out.println(String.format("%1$s Skipping event, wrong format. Recognized events are [ENTER, EXIT]. Data length is expected to be 4 for ENTER and 3 for EXIT. [%2$s]", ErrorUtil.ERROR_BAD_DATA, data));
+                outputService.writeOutput(String.format("%1$s Skipping event, wrong format. Recognized events are [ENTER, EXIT]. Data length is expected to be 4 for ENTER and 3 for EXIT. [%2$s]", ErrorUtil.ERROR_BAD_DATA, data));
         }
     }
 
@@ -118,7 +130,7 @@ public class ParkingService {
                 .timestamp(Long.valueOf(data[3]))
                 .build();
 
-        System.out.println(enterEventService.processEvent(event));
+        outputService.writeOutput(enterEventService.processEvent(event));
     }
 
     private void processExitEvent(String[] data) {
@@ -128,7 +140,7 @@ public class ParkingService {
                 .timestamp(Long.valueOf(data[2]))
                 .build();
 
-        System.out.println(exitEventService.processEvent(event));
+        outputService.writeOutput(exitEventService.processEvent(event));
     }
 
     /**

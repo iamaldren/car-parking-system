@@ -4,6 +4,7 @@ import com.aldren.event.service.impl.EnterEventService;
 import com.aldren.event.service.impl.ExitEventService;
 import com.aldren.input.service.InputService;
 import com.aldren.lot.service.LotService;
+import com.aldren.output.OutputService;
 import com.aldren.properties.VehicleProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -40,6 +43,9 @@ public class ParkingServiceTest {
     @Mock
     private LotService lotService;
 
+    @Mock
+    private OutputService outputService;
+
     @Autowired
     private VehicleProperties vehicleProperties;
 
@@ -47,7 +53,7 @@ public class ParkingServiceTest {
 
     @BeforeEach
     public void init() {
-        parkingService = new ParkingService(inputService, enterEventService, exitEventService, lotService, vehicleProperties);
+        parkingService = new ParkingService(inputService, enterEventService, exitEventService, lotService, vehicleProperties, outputService);
     }
 
     @Test
@@ -62,8 +68,8 @@ public class ParkingServiceTest {
         file1.add("Enter car SSD9281L 1613549740");
         file1.add("Exit SDW2111W 1613559745");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file1);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file1);
 
         when(inputService.processInput()).thenReturn(fileData);
         when(enterEventService.processEvent(any())).thenReturn("Test output");
@@ -77,6 +83,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
+        verify(outputService, times(9)).writeOutput(anyString());
     }
 
     @Test
@@ -84,8 +91,8 @@ public class ParkingServiceTest {
         List<String> file = new ArrayList<>();
         file.add("3");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file);
 
         when(inputService.processInput()).thenReturn(fileData);
 
@@ -97,6 +104,7 @@ public class ParkingServiceTest {
         verify(lotService, times(0)).cleanLots();
         verify(enterEventService, times(0)).cleanEvent();
         verify(exitEventService, times(0)).cleanEvent();
+        verify(outputService, times(2)).writeOutput(anyString());
     }
 
     @Test
@@ -104,8 +112,8 @@ public class ParkingServiceTest {
         List<String> file = new ArrayList<>();
         file.add("3 A");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file);
 
         when(inputService.processInput()).thenReturn(fileData);
 
@@ -115,6 +123,7 @@ public class ParkingServiceTest {
         verify(lotService, times(0)).cleanLots();
         verify(enterEventService, times(0)).cleanEvent();
         verify(exitEventService, times(0)).cleanEvent();
+        verify(outputService, times(0)).writeOutput(anyString());
     }
 
     @Test
@@ -122,8 +131,8 @@ public class ParkingServiceTest {
         List<String> file = new ArrayList<>();
         file.add("B 4");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file);
 
         when(inputService.processInput()).thenReturn(fileData);
 
@@ -133,6 +142,7 @@ public class ParkingServiceTest {
         verify(lotService, times(0)).cleanLots();
         verify(enterEventService, times(0)).cleanEvent();
         verify(exitEventService, times(0)).cleanEvent();
+        verify(outputService, times(0)).writeOutput(anyString());
     }
 
     @Test
@@ -148,8 +158,8 @@ public class ParkingServiceTest {
         file1.add("Exit SSD9281L");
         file1.add("Exit SDW2111W 1613559745");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file1);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file1);
 
         when(inputService.processInput()).thenReturn(fileData);
         when(enterEventService.processEvent(any())).thenReturn("Test output");
@@ -163,6 +173,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
+        verify(outputService, times(10)).writeOutput(anyString());
     }
 
     @Test
@@ -177,8 +188,8 @@ public class ParkingServiceTest {
         file1.add("Enter car SSD9281L 1613549740");
         file1.add("Exit SDW2111W 1613559745");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file1);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file1);
 
         when(inputService.processInput()).thenReturn(fileData);
         when(enterEventService.processEvent(any())).thenReturn("Test output");
@@ -192,6 +203,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
+        verify(outputService, times(9)).writeOutput(anyString());
     }
 
     @Test
@@ -207,8 +219,8 @@ public class ParkingServiceTest {
         file1.add("Exit SDW2111W 1613559745");
         file1.add("Exes SSD9281L 1613559745");
 
-        List<List<String>> fileData = new ArrayList<>();
-        fileData.add(file1);
+        Map<String, List<String>> fileData = new HashMap<>();
+        fileData.put("sample.txt", file1);
 
         when(inputService.processInput()).thenReturn(fileData);
         when(enterEventService.processEvent(any())).thenReturn("Test output");
@@ -222,6 +234,7 @@ public class ParkingServiceTest {
         verify(lotService, times(1)).cleanLots();
         verify(enterEventService, times(1)).cleanEvent();
         verify(exitEventService, times(1)).cleanEvent();
+        verify(outputService, times(10)).writeOutput(anyString());
     }
 
 }
