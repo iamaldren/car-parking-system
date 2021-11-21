@@ -123,7 +123,7 @@ Any erroneous cases should be handled with an appropriate error message.
 
 ### Services
 
-The application has 4 main services that are responsible for the whole logic flow.
+The application has 5 main services that are responsible for the whole logic flow.
 
 #### Parking Service
 
