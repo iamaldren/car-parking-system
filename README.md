@@ -2,9 +2,10 @@
 
 ## Prerequisites
 
-1. Java 11 - Follow [here](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04) for installation instructions
-2. Maven - Follow [here](https://www.rosehosting.com/blog/how-to-install-maven-on-ubuntu-16-04/) for installtion instructions
-3. Redis
+1. Git - Follow [here](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-16-04) for installation instructions
+2. Java 11 - Follow [here](https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04) for installation instructions
+3. Maven - Follow [here](https://www.rosehosting.com/blog/how-to-install-maven-on-ubuntu-16-04/) for installtion instructions
+4. Redis
 
 ### 3 ways to run Redis
 
@@ -226,9 +227,16 @@ This service is responsible for calculating the total fee, and de-allocating the
 
 ### Preparation
 
-1. Prepare the test input files.
-2. You can choose to put your input files in any folder you want in your system, or you could also put it under `<project_dir>\src\main\resources\inputs`.
-3. All items in the Prerequisites section must be installed
+1. All items in the Prerequisites section must be installed
+2. Prepare the test input files.
+3. You can choose to put your input files in any folder you want in your system, or you could also put it under `<project_dir>\src\main\resources\inputs`.
+
+### Clone the project from Github
+
+You can clone the project from github by using the command below:
+```shell
+$ git clone https://github.com/iamaldren/car-parking-system.git
+```
 
 ### Configuration
 
