@@ -9,15 +9,14 @@ spring:
 
 app:
   system:
-    run:
-      method: "scheduler"
     input:
       file:
         location: "/inputs"
     output:
-       file:
-         enabled: true
-         location: "/outputs"
+      method: "scheduler"
+      file:
+        enabled: true
+        location: "/outputs"
     vehicle:
       types:
         - kind: "car"

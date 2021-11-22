@@ -5,7 +5,7 @@ import com.aldren.event.service.impl.EnterEventService;
 import com.aldren.event.service.impl.ExitEventService;
 import com.aldren.input.service.InputService;
 import com.aldren.lot.service.LotService;
-import com.aldren.output.OutputService;
+import com.aldren.output.service.OutputService;
 import com.aldren.properties.VehicleProperties;
 import com.aldren.util.ErrorUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +63,15 @@ public class ParkingService {
                 });
     }
 
+    /**
+     *
+     * @param lotCount
+     * @return
+     *
+     * This function will try to set the available lots per vehicle
+     * in Redis, if it was able to set it successfully it will return
+     * TRUE, otherwise it will return FALSE.
+     */
     private boolean isAvailableLotsSet(String lotCount) {
         String[] availableLots = lotCount.trim().split("\\s+");
 
@@ -105,6 +114,19 @@ public class ParkingService {
         cleanUp();
     }
 
+    /**
+     *
+     * @param data
+     *
+     * This function will handle the parsing of the data
+     * to an Event object.
+     *
+     * For Exit Event, it will always assume that the
+     * parameters are 3, and 4 for Enter Event.
+     *
+     * It also validates that the Event passed are actually
+     * recognized.
+     */
     private void parseDataToEvent(String data) {
         String[] splitData = data.trim().split("\\s+");
 

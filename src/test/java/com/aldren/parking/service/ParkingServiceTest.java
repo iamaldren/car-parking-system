@@ -4,7 +4,7 @@ import com.aldren.event.service.impl.EnterEventService;
 import com.aldren.event.service.impl.ExitEventService;
 import com.aldren.input.service.InputService;
 import com.aldren.lot.service.LotService;
-import com.aldren.output.OutputService;
+import com.aldren.output.service.OutputService;
 import com.aldren.properties.VehicleProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

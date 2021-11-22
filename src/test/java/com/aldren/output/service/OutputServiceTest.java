@@ -1,6 +1,5 @@
 package com.aldren.output.service;
 
-import com.aldren.output.OutputService;
 import com.aldren.properties.FileOutputProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

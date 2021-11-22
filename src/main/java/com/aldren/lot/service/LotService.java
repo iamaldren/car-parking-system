@@ -54,7 +54,10 @@ public class LotService {
      *
      * Will always return the available lot with lowest number.
      *
-     * E.g Available lots are Lot2, Lot4, Lot5. It will return Lot2
+     * E.g Available lots are Lot4, Lot5. Then a vehicle parked on
+     * Lot2 exited. The available lots will now be Lot4, Lot5, and
+     * Lot2. When the next vehicle enters, it will be assigned to
+     * Lot2.
      */
     public String getNextAvailableLot(String vehicleType) throws VehicleNotSupportedException {
         Optional<LotAvailability> lotAvailability = lotAvailabilityRepository.findById(vehicleType);

@@ -1,4 +1,4 @@
-package com.aldren.output;
+package com.aldren.output.service;
 
 import com.aldren.properties.FileOutputProperties;
 import lombok.extern.slf4j.Slf4j;
