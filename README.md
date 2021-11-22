@@ -329,7 +329,7 @@ To invoke the process via API, the below property must be set:
 ```yaml
 app:
   system:
-    run:
+    output:
       method: api
 ```
 
@@ -339,7 +339,7 @@ To invoke the process via scheduler, the below property must be set:
 ```yaml
 app:
   system:
-    run:
+    output:
       method: scheduler
 ```
 
