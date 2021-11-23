@@ -28,13 +28,10 @@ public class FileInputServiceTest {
 
     private InputService inputService;
 
-    @BeforeEach
-    public void init() {
-        inputService = new FileInputService(fileInputProperties);
-    }
-
     @Test
     public void testProcessInput() {
+        inputService = new FileInputService(fileInputProperties);
+
         int expectedFileData = 1;
         int expectedFileDataLines = 8;
 
@@ -47,6 +44,18 @@ public class FileInputServiceTest {
                 .get()
                 .getValue()
                 .size());
+    }
+
+    @Test
+    public void testProcessInputNoFile() {
+        fileInputProperties.setLocation("/testinput");
+        inputService = new FileInputService(fileInputProperties);
+
+        int expectedFileData = 0;
+
+        Map<String, List<String>> lines = inputService.processInput();
+
+        assertEquals(expectedFileData, lines.size());
     }
 
 }
