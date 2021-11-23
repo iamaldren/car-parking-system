@@ -114,6 +114,14 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.7</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*com/aldren/CarParkingSystemApplication.class</exclude>
+                        <exclude>**/*com/aldren/config/**</exclude>
+                        <exclude>**/*com/aldren/exception/**</exclude>
+                        <exclude>**/*com/aldren/util/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

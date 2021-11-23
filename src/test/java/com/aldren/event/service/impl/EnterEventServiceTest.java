@@ -110,6 +110,30 @@ public class EnterEventServiceTest {
         assertEquals(carExpectedOutput, carOutput);
     }
 
+    @Test
+    public void outputVehicleNotSupportedTest() throws VehicleNotSupportedException {
+        Event event = Event.builder()
+                .event("Enter")
+                .vehicleType("truck")
+                .plateNumber("SGX1234A")
+                .timestamp(Long.valueOf("1613541902"))
+                .build();
+
+        when(lotService.getNextAvailableLot(anyString())).thenThrow(new VehicleNotSupportedException("Vehicle truck is not yet supported."));
+
+        String carOutput = eventService.processEvent(event);
+        String carExpectedOutput = "Bad Data:: Vehicle truck is not yet supported.";
+
+        assertEquals(carExpectedOutput, carOutput);
+    }
+
+    @Test
+    public void cleanLotsTest() {
+        eventService.cleanEvent();
+
+        verify(enterEventRepository, times(1)).deleteAll();
+    }
+
     private String testOutputAcceptData(Event event, String lot) throws VehicleNotSupportedException {
         when(lotService.getNextAvailableLot(anyString())).thenReturn(lot);
         return eventService.processEvent(event);
