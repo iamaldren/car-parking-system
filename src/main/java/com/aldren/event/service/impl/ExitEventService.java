@@ -74,23 +74,22 @@ public class ExitEventService implements EventService {
         // Calculating the difference in Minutes
         long differenceInMinutes = (differenceInMilliSeconds / (60 * 1000)) % 60;
 
-        BigDecimal totalFee = startingFee;
-        if(differenceInHours > 0) {
-            /**
-             * If minutes is greater than 0, we treat it
-             * as numberOfHours + 1.
-             *
-             * Hence if total hours is 1, and minutes is 1.
-             * The total fee will be computed as fee*2hours.
-             */
-            if(differenceInMinutes > 0) {
-                differenceInHours = differenceInHours + 1;
-            }
-
-            totalFee = totalFee.multiply(BigDecimal.valueOf(differenceInHours));
+        if(differenceInHours == 0 && differenceInMinutes == 0) {
+            return new BigDecimal(0);
         }
 
-        return totalFee;
+        /**
+         * If minutes is greater than 0, we treat it
+         * as numberOfHours + 1.
+         *
+         * Hence if total hours is 1, and minutes is 1.
+         * The total fee will be computed as fee*2hours.
+         */
+        if(differenceInMinutes > 0) {
+            differenceInHours = differenceInHours + 1;
+        }
+
+        return startingFee.multiply(BigDecimal.valueOf(differenceInHours));
     }
 
 }
