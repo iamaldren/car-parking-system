@@ -9,9 +9,17 @@ app:
       method: "file"
       file:
         location: "/inputs"
+    output:
+      file:
+        enabled: true
+        location: "/outputs"
     vehicle:
       types:
         - kind: "car"
           fee: 2.00
+          index: 0
+          lotName: "CarLot"
         - kind: "motorcycle"
           fee: 1.00
+          index: 1
+          lotName: "MotorcycleLot"

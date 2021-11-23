@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,10 +38,15 @@ public class FileInputServiceTest {
         int expectedFileData = 1;
         int expectedFileDataLines = 8;
 
-        List<List<String>> lines = inputService.processInput();
+        Map<String, List<String>> lines = inputService.processInput();
 
         assertEquals(expectedFileData, lines.size());
-        assertEquals(expectedFileDataLines, lines.get(0).size());
+        assertEquals(expectedFileDataLines, lines.entrySet()
+                .stream()
+                .findFirst()
+                .get()
+                .getValue()
+                .size());
     }
 
 }

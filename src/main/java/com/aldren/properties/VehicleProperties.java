@@ -22,4 +22,14 @@ public class VehicleProperties {
                 .collect(Collectors.toMap(Type::getKind, Type::getFee));
     }
 
+    public Map<Integer, String> getKindByIndex() {
+        return types.stream()
+                .collect(Collectors.toMap(Type::getIndex, Type::getKind));
+    }
+
+    public Map<String, String> getLotName() {
+        return types.stream()
+                .collect(Collectors.toMap(Type::getKind, Type::getLotName));
+    }
+
 }

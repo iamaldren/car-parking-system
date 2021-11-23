@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class VehicleNotSupportedException extends Exception {
 
-    private String message;
+    private final String message;
 
     public VehicleNotSupportedException(String message) {
         this.message = message;

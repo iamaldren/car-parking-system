@@ -11,5 +11,7 @@ public class Type {
 
     private String kind;
     private BigDecimal fee;
+    private int index;
+    private String lotName;
 
 }

@@ -1,4 +1,4 @@
-package com.aldren.input.execution.controller;
+package com.aldren.output.execution.controller;
 
 import com.aldren.parking.service.ParkingService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-@ConditionalOnProperty(prefix = "app.system.run", name = "method", havingValue = "api")
-public class InputController {
+@ConditionalOnProperty(prefix = "app.system.output", name = "method", havingValue = "api")
+public class OutputController {
 
     private final ParkingService parkingService;
 
-    public InputController(ParkingService parkingService) {
+    public OutputController(ParkingService parkingService) {
         this.parkingService = parkingService;
     }
 
