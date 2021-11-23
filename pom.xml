@@ -120,6 +120,7 @@
                         <exclude>**/*com/aldren/config/**</exclude>
                         <exclude>**/*com/aldren/exception/**</exclude>
                         <exclude>**/*com/aldren/util/**</exclude>
+                        <exclude>**/*com/aldren/output/execution/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

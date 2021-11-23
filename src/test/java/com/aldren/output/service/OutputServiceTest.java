@@ -60,4 +60,9 @@ public class OutputServiceTest {
         assertLinesMatch(expectedLines, Files.readAllLines(outputFilePath));
     }
 
+    @Test
+    public void isFileOutputEnabledTest() throws IOException {
+        assertTrue(outputService.isFileOutputEnabled());
+    }
+
 }
