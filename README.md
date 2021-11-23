@@ -1,6 +1,7 @@
 # car-parking-system
 
 [![Build Status](https://app.travis-ci.com/iamaldren/car-parking-system.svg?branch=main)](https://app.travis-ci.com/iamaldren/car-parking-system)
+[![codecov](https://codecov.io/gh/iamaldren/car-parking-system/branch/main/graph/badge.svg?token=sin0WurYo2)](https://codecov.io/gh/iamaldren/car-parking-system)
 
 ## Prerequisites
 
