@@ -1,5 +1,7 @@
 # car-parking-system
 
+[![Build Status](https://app.travis-ci.com/iamaldren/car-parking-system.svg?branch=main)](https://app.travis-ci.com/iamaldren/car-parking-system)
+
 ## Prerequisites
 
 1. Git - Follow [here](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-16-04) for installation instructions
