@@ -107,6 +107,7 @@ public class OutputServiceTest {
         String sampleOutput = "Test";
 
         outputService.writeOutput(sampleOutput);
+        outputService.prepareFile("test4.txt");
 
         List<String> expectedLines = new ArrayList<>();
         expectedLines.add(sampleOutput);
